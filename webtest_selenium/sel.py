@@ -239,7 +239,7 @@ class SeleniumApp(testapp.TestApp):
     def has_upload_support(self):
         return self._browser.driver in HAS_UPLOAD_SUPPORT
 
-    def do_request(self, req, status, expect_errors):
+    def do_request(self, req, status, expect_errors, now=None):
         if req.method != 'GET':
             raise testapp.AppError('Only GET are allowed')
         if self.app:
