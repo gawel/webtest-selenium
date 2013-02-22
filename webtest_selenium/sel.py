@@ -22,6 +22,7 @@ import subprocess
 from functools import wraps
 from webtest import app as testapp
 from webtest import forms
+from webtest import utils
 from contextlib import contextmanager
 from six.moves import http_client
 from six.moves import BaseHTTPServer
@@ -591,13 +592,13 @@ class MultipleSelect(Field):
 
     def force_value(self, values):
         self.removeAllSelections()
-        str_values = [testapp._stringify(value) for value in values]
+        str_values = [utils.stringify(value) for value in values]
         for v in str_values:
             self.addSelection('value=%s' % v)
 
     def value__set(self, values):
         self.removeAllSelections()
-        str_values = [testapp._stringify(value) for value in values]
+        str_values = [utils.stringify(value) for value in values]
         for v in str_values:
             self.addSelection('value=%s' % v)
 

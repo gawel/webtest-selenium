@@ -138,7 +138,7 @@ class TestStatus(unittest.TestCase):
 
     @classmethod
     def setupClass(cls):
-        cls.app = webtest.SeleniumApp(application)
+        cls.app = webtest_selenium.SeleniumApp(application)
 
     def test_302(self):
         resp = self.app.get('/302', dict(redirect='/500'))
