@@ -57,6 +57,7 @@ def application(environ, start_response):
                 resp.content_type = 'text/javascript'
             elif ext == '.json':
                 resp.content_type = 'application/json'
+        resp.headers['Set-Cookie'] = 'session=somevalue\\075; Path=/'
     else:
         redirect = req.params.get('redirect', '')
         if redirect:

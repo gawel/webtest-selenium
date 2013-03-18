@@ -264,7 +264,10 @@ class SeleniumApp(testapp.TestApp):
         if timeout != 0:
             timeout = timeout or self.timeout
             self.browser.waitForPageToLoad(timeout)
-        trafic = json.loads(self.browser.captureNetworkTraffic('json'))
+        json_string = self.browser.captureNetworkTraffic('json')
+        # escape, otherwise json.loads() can raise ValueError
+        json_string = json_string.replace('\\0', '\\\\0')
+        trafic = json.loads(json_string)
         responses = []
         errors = []
         for d in trafic:
