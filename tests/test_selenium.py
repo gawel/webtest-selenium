@@ -57,6 +57,7 @@ def application(environ, start_response):
                 resp.content_type = 'text/javascript'
             elif ext == '.json':
                 resp.content_type = 'application/json'
+        resp.headers['Set-Cookie'] = 'session=somevalue\\075; Path=/'
     else:
         redirect = req.params.get('redirect', '')
         if redirect:
@@ -137,7 +138,7 @@ class TestApp(unittest.TestCase):
 class TestStatus(unittest.TestCase):
 
     @classmethod
-    def setupClass(cls):
+    def setUpClass(cls):
         cls.app = webtest_selenium.SeleniumApp(application)
 
     def test_302(self):
@@ -158,7 +159,7 @@ class TestStatus(unittest.TestCase):
         self.app.get('/500', status=500)
 
     @classmethod
-    def teardownClass(cls):
+    def tearDownClass(cls):
         cls.app.close()
 
 TestStatus = webtest_selenium.selenium(TestStatus)
@@ -167,7 +168,7 @@ TestStatus = webtest_selenium.selenium(TestStatus)
 class TestJQueryUI(unittest.TestCase):
 
     @classmethod
-    def setupClass(cls):
+    def setUpClass(cls):
         cls.app = webtest_selenium.SeleniumApp(url='http://jqueryui.com/')
 
     def setUp(self):
@@ -197,7 +198,7 @@ class TestJQueryUI(unittest.TestCase):
         self.assertIn(item, cart)
 
     @classmethod
-    def teardownClass(cls):
+    def tearDownClass(cls):
         cls.app.close()
 
 TestJQueryUI = webtest_selenium.selenium(TestJQueryUI)
