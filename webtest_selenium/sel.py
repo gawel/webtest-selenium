@@ -92,9 +92,9 @@ def context_manager(resp):
             if h.lower() not in ('host',):
                 app.browser.addCustomRequestHeader(h, v)
         fd = tempfile.NamedTemporaryFile(prefix='webtest-selenium-',
-                                         suffix='.html')
+                                         suffix='.html', delete=False)
         fd.write(resp.body)
-        fd.flush()
+        fd.close()
         response = app.get('/__file__', dict(__file__=fd.name))
         try:
             yield response
@@ -106,7 +106,7 @@ def context_manager(resp):
             resp._forms_indexed = None
             resp.updated = True
             app.close()
-            fd.close()
+            os.unlink(fd.name)
 
 
 def selenium(obj):
