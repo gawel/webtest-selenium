@@ -339,9 +339,14 @@ class TestResponse(testapp.TestResponse):
             return self
         return self.test_app._get_response(resp=self, timeout=timeout)
 
-    @property
-    def forms(self):
-        return Forms(self)
+    def _parse_forms(self):
+        forms_ = self._forms_indexed = {}
+        for i, f in enumerate(self.html('form')):
+            form_id = f.get('id')
+            form = Form(self, form_id or i)
+            forms_[i] = form
+            if form_id:
+                forms_[form_id] = form
 
     @property
     def form(self):
@@ -728,15 +733,6 @@ Field.classes['submit'] = Submit
 Field.classes['button'] = Submit
 
 Field.classes['image'] = Submit
-
-
-class Forms(object):
-
-    def __init__(self, resp):
-        self.resp = resp
-
-    def __getitem__(self, key):
-        return Form(self.resp, key)
 
 
 class Form(forms.Form, Element):
