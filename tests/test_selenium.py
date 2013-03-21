@@ -72,6 +72,12 @@ class TestApp(unittest.TestCase):
     def setUp(self):
         self.app = webtest.TestApp(application)
 
+    def _test_forms(self):
+        resp = self.app.get('/forms.html')
+        self.assertSetEqual(set([0, "myform1", 1, 2, "myform3"]), set(resp.forms))
+        self.assertEqual(resp.forms[0], resp.forms["myform1"])
+        self.assertEqual(resp.forms[2], resp.forms["myform3"])
+
     def test_webtest(self):
         resp = self.app.get('/',
                             {'redirect': '/message.html?message=submited'})
@@ -97,6 +103,8 @@ class TestApp(unittest.TestCase):
         resp = form.submit(name='go')
         resp = resp.follow()
         resp.mustcontain('<pre>submited</pre>')
+
+        self._test_forms()
 
     @webtest_selenium.selenium
     def test_selenium(self):
@@ -133,6 +141,8 @@ class TestApp(unittest.TestCase):
         resp = form.submit()
         resp = resp.follow()
         resp.mustcontain('<pre>submited</pre>')
+
+        self._test_forms()
 
 
 class TestStatus(unittest.TestCase):
