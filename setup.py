@@ -19,7 +19,9 @@ setup(name='webtest-selenium',
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
-          'webtest',
+          'WebOb',
+          'WebTest',
+          'six',
       ],
       entry_points="""
       # -*- Entry points: -*-
