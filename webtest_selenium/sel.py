@@ -427,7 +427,7 @@ class Element(object):
 
     def wait_and_click(self, timeout=3000):
         """Wait for an element, click on it and return this element"""
-        return self.wait().click()
+        return self.wait(timeout).click()
 
     def hasClass(self, name):
         """True iif the class is present"""
